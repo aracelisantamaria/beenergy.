@@ -4,232 +4,207 @@
 // Token fungible que representa kWh de energía renovable.
 // 
 // 
-// En testnet:
-// - Admin = Wallet de prueba del equipo
-// - Generación/consumo = Simulados desde backend
-// - No hay oracles ni hardware IoT real
-// 
-// En mainnet:
-// - Admin = Oracle que lee medidores Modbus/MQTT
-// - Generación/consumo = Datos reales de sensores
-// - Oracle llama mint_energy() cada 15 minutos
-//
-// ESTÁNDAR: SEP-41 (Soroban Token Interface)
-// https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0041.md
-// ==============================================================================
-
-// SPDX-License-Identifier: MIT
-// Compatible with OpenZeppelin Stellar Soroban Contracts ^0.4.1
 
 #![no_std]
 
-// ==============================================================================
-// IMPORTS
-// ==============================================================================
-use soroban_sdk::{
-    contract,
-    contractimpl,
-    contracttype,
-    Address,
-    Env,
-    String,
-};
-
-// OpenZeppelin Stellar - Implementación SEP-41
+use soroban_sdk::{contract, contractimpl, contracttype, Address, Env, String, Symbol};
 use stellar_macros::default_impl;
 use stellar_tokens::fungible::{Base, FungibleToken};
 
-// ==============================================================================
-// ESTRUCTURA DEL CONTRATO
-// ==============================================================================
-/// BeEnergy Token - Token SEP-41 para energía renovable
+/// Main token contract
 #[contract]
 pub struct EnergyToken;
 
-// ==============================================================================
-// STORAGE
-// ==============================================================================
+/// Storage keys
 #[contracttype]
-#[derive(Clone)]
 pub enum DataKey {
-    /// Administrador autorizado para mintear tokens
-    /// 
-    /// MVP Testnet: Wallet del equipo BeEnergy (para demos)
-    /// Mainnet: Oracle que lee medidores IoT reales
     Admin,
+    DistributionContract,
+    MarketContract,
+    TotalMinted,
+    TotalBurned,
 }
 
-// ==============================================================================
-// IMPLEMENTACIÓN
-// ==============================================================================
+/// Custom errors
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum TokenError {
+    NotInitialized,
+    AlreadyInitialized,
+    Unauthorized,
+    InvalidAmount,
+    InsufficientBalance,
+}
+
 #[contractimpl]
 impl EnergyToken {
-    
-    // ==========================================================================
-    // INICIALIZACIÓN
-    // ==========================================================================
-    
-    /// Constructor - Inicializa el token SEP-41
-    /// 
-    /// # Configuración SEP-41:
-    /// - Decimals: 7 (10^7 stroops = 1 ENERGY = 1 kWh)
-    /// - Name: "BeEnergy Token"
-    /// - Symbol: "ENERGY"
-    /// 
-    /// # Argumentos
-    /// * `admin` - En testnet: Wallet del equipo
-    ///             En mainnet: Dirección del oracle IoT
-    pub fn __constructor(env: Env, admin: Address) {
-        // Configurar metadata SEP-41
+    /// Initialize the token
+    /// Only called once during deployment
+    pub fn initialize(
+        env: Env,
+        admin: Address,
+        distribution_contract: Address,
+    ) -> Result<(), TokenError> {
+        // Check if already initialized
+        if env.storage().instance().has(&DataKey::Admin) {
+            return Err(TokenError::AlreadyInitialized);
+        }
+
+        // Set token metadata (7 decimals = standard Stellar precision)
         Base::set_metadata(
             &env,
             7,
             String::from_str(&env, "BeEnergy Token"),
-            String::from_str(&env, "ENERGY")
+            String::from_str(&env, "ENERGY"),
         );
-        
+
+        // Store admin and authorized contracts
         env.storage().instance().set(&DataKey::Admin, &admin);
-    }
-    
-    // ==========================================================================
-    // FUNCIONES DE ENERGÍA 
-    // ==========================================================================
-    
-    /// Mintea tokens cuando se genera energía solar
-    /// 
-    /// # Testnet:
-    /// Esta función se llama desde el BACKEND con datos simulados:
-    /// 
-    /// ```typescript
-    /// // Backend simula generación cada 15 min
-    /// const mockGeneration = Math.random() * 20; // 0-20 kWh
-    /// await contract.mint_energy(user, mockGeneration * 1e7);
-    /// ```
-    /// 
-    /// # Mainnet:
-    /// Oracle IoT llama esta función con datos REALES:
-    /// 
-    /// ```rust
-    /// // Oracle lee medidor Modbus cada 15 min
-    /// let real_kwh = modbus_read_meter(meter_id);
-    /// contract.mint_energy(user, real_kwh * 10_000_000);
-    /// ```
-    /// 
-    /// # Argumentos
-    /// * `to` - Usuario que generó energía
-    /// * `kwh_amount` - Energía en stroops (1e7 = 1 kWh)
-    /// 
-    /// # Seguridad
-    /// - Solo el admin puede llamar esta función
-    /// - En testnet: Admin = wallet del equipo
-    /// - En mainnet: Admin = oracle verificado
-    pub fn mint_energy(env: Env, to: Address, kwh_amount: i128) {
-        // Verificar que es el admin
-        let admin: Address = env.storage().instance()
-            .get(&DataKey::Admin)
-            .expect("Contract not initialized");
-        
-        admin.require_auth();
-        
-        // Validación
-        assert!(kwh_amount > 0, "Amount must be positive");
-        
-        // Mintear usando SEP-41 (OpenZeppelin)
-        Base::mint(&env, &to, kwh_amount);
-        
-        // Evento para frontend
+        env.storage()
+            .instance()
+            .set(&DataKey::DistributionContract, &distribution_contract);
+
+        // Initialize counters
+        env.storage().instance().set(&DataKey::TotalMinted, &0i128);
+        env.storage().instance().set(&DataKey::TotalBurned, &0i128);
+
+        // Emit initialization event
         env.events().publish(
-            (String::from_str(&env, "energy_generated"),),
-            (to.clone(), kwh_amount)
+            (Symbol::new(&env, "initialized"),),
+            (admin.clone(), distribution_contract.clone()),
         );
+
+        Ok(())
     }
-    
-    /// Quema tokens cuando se consume energía
-    /// 
-    /// # Testnet:
-    /// Backend simula consumo cuando usuario interactúa:
-    /// 
-    /// ```typescript
-    /// // Usuario "consume" energía en la app
-    /// const consumption = 10 * 1e7; // 10 kWh
-    /// await contract.burn_consumption(user, consumption);
-    /// ```
-    /// 
-    /// # Mainnet:
-    /// Sistema lee consumo real de medidor bidireccional.
-    /// 
-    /// # Argumentos
-    /// * `from` - Usuario que consumió energía
-    /// * `kwh_amount` - Energía consumida en stroops
-    pub fn burn_consumption(env: Env, from: Address, kwh_amount: i128) {
+
+    /// Mint tokens when energy is generated
+    /// Can only be called by the distribution contract
+    pub fn mint(env: Env, to: Address, amount: i128) -> Result<(), TokenError> {
+        // Verify caller is the authorized distribution contract
+        let distribution_contract: Address = env
+            .storage()
+            .instance()
+            .get(&DataKey::DistributionContract)
+            .ok_or(TokenError::NotInitialized)?;
+
+        distribution_contract.require_auth();
+
+        if amount <= 0 {
+            return Err(TokenError::InvalidAmount);
+        }
+
+        // Mint using OpenZeppelin base
+        Base::mint(&env, &to, amount);
+
+        // Update total minted counter
+        let total_minted: i128 = env
+            .storage()
+            .instance()
+            .get(&DataKey::TotalMinted)
+            .unwrap_or(0);
+        env.storage()
+            .instance()
+            .set(&DataKey::TotalMinted, &(total_minted + amount));
+
+        // Emit mint event
+        env.events().publish(
+            (Symbol::new(&env, "energy_minted"),),
+            (to.clone(), amount),
+        );
+
+        Ok(())
+    }
+
+    /// Burn tokens when energy is consumed
+    /// User must authorize this transaction
+    pub fn burn(env: Env, from: Address, amount: i128) -> Result<(), TokenError> {
         from.require_auth();
-        
-        assert!(kwh_amount > 0, "Amount must be positive");
-        
+
+        if amount <= 0 {
+            return Err(TokenError::InvalidAmount);
+        }
+
+        // Check sufficient balance
         let balance = Base::balance(&env, &from);
-        assert!(balance >= kwh_amount, "Insufficient balance");
-        
-        // Quemar usando SEP-41
-        Base::burn(&env, &from, kwh_amount);
-        
+        if balance < amount {
+            return Err(TokenError::InsufficientBalance);
+        }
+
+        // Burn using OpenZeppelin base
+        Base::burn(&env, &from, amount);
+
+        // Update total burned counter
+        let total_burned: i128 = env
+            .storage()
+            .instance()
+            .get(&DataKey::TotalBurned)
+            .unwrap_or(0);
+        env.storage()
+            .instance()
+            .set(&DataKey::TotalBurned, &(total_burned + amount));
+
+        // Emit burn event
         env.events().publish(
-            (String::from_str(&env, "energy_consumed"),),
-            (from.clone(), kwh_amount)
+            (Symbol::new(&env, "energy_consumed"),),
+            (from.clone(), amount),
         );
+
+        Ok(())
     }
-    
-    // ==========================================================================
-    // FUNCIONES DE CONSULTA
-    // ==========================================================================
-    
-    /// Balance de un usuario
-    pub fn balance_of(env: Env, address: Address) -> i128 {
+
+    /// Get balance of an address
+    pub fn balance(env: Env, address: Address) -> i128 {
         Base::balance(&env, &address)
     }
-    
-    /// Total supply 
+
+    /// Get total supply
     pub fn total_supply(env: Env) -> i128 {
-        Base::total_supply(&env)
+        let total_minted: i128 = env
+            .storage()
+            .instance()
+            .get(&DataKey::TotalMinted)
+            .unwrap_or(0);
+        let total_burned: i128 = env
+            .storage()
+            .instance()
+            .get(&DataKey::TotalBurned)
+            .unwrap_or(0);
+        total_minted - total_burned
     }
-    
-    /// Actualizar admin
-    /// 
-    /// En testnet: Cambiar wallet de prueba
-    /// En mainnet: Actualizar dirección del oracle
-    pub fn update_admin(env: Env, new_admin: Address) {
-        let current_admin: Address = env.storage().instance()
+
+    /// Update the market contract address (for future integrations)
+    pub fn set_market_contract(env: Env, market_contract: Address) -> Result<(), TokenError> {
+        let admin: Address = env
+            .storage()
+            .instance()
             .get(&DataKey::Admin)
-            .expect("Contract not initialized");
-        
-        current_admin.require_auth();
-        env.storage().instance().set(&DataKey::Admin, &new_admin);
-        
-        env.events().publish(
-            (String::from_str(&env, "admin_updated"),),
-            new_admin
-        );
+            .ok_or(TokenError::NotInitialized)?;
+
+        admin.require_auth();
+
+        env.storage()
+            .instance()
+            .set(&DataKey::MarketContract, &market_contract);
+
+        Ok(())
     }
-    
-    /// Consultar admin actual
-    pub fn get_admin(env: Env) -> Address {
-        env.storage().instance()
-            .get(&DataKey::Admin)
-            .expect("Contract not initialized")
+
+    /// Get token metadata
+    pub fn name(env: Env) -> String {
+        String::from_str(&env, "BeEnergy Token")
+    }
+
+    pub fn symbol(env: Env) -> String {
+        String::from_str(&env, "ENERGY")
+    }
+
+    pub fn decimals(env: Env) -> u32 {
+        7
     }
 }
 
-// ==============================================================================
-// IMPLEMENTACIÓN AUTOMÁTICA
-// ==============================================================================
-/// Implementa TODAS las funciones SEP-41:
-/// - transfer(), approve(), allowance()
-/// - name(), symbol(), decimals()
-/// - balance(), total_supply()
-/// 
-/// Estas funciones son compatibles con:
-/// ✅ Freighter Wallet (testnet y mainnet)
-/// ✅ Stellar DEX
-/// ✅ Cualquier app SEP-41
+/// Implement all standard FungibleToken functions automatically
+/// This includes: transfer, transfer_from, approve, allowance, etc.
 #[default_impl]
 #[contractimpl]
 impl FungibleToken for EnergyToken {
@@ -237,5 +212,110 @@ impl FungibleToken for EnergyToken {
 }
 
 #[cfg(test)]
-mod test;
-EOF
+mod test {
+    use super::*;
+    use soroban_sdk::{testutils::Address as _, Env};
+
+    #[test]
+    fn test_initialization() {
+        let env = Env::default();
+        let contract_id = env.register_contract(None, EnergyToken);
+        let client = EnergyTokenClient::new(&env, &contract_id);
+
+        let admin = Address::generate(&env);
+        let distribution = Address::generate(&env);
+
+        client.initialize(&admin, &distribution);
+
+        assert_eq!(client.name(), String::from_str(&env, "BeEnergy Token"));
+        assert_eq!(client.symbol(), String::from_str(&env, "ENERGY"));
+        assert_eq!(client.decimals(), 7);
+        assert_eq!(client.total_supply(), 0);
+    }
+
+    #[test]
+    fn test_mint_tokens() {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let contract_id = env.register_contract(None, EnergyToken);
+        let client = EnergyTokenClient::new(&env, &contract_id);
+
+        let admin = Address::generate(&env);
+        let distribution = Address::generate(&env);
+        let user = Address::generate(&env);
+
+        client.initialize(&admin, &distribution);
+
+        // Mint 100 kWh (with 7 decimals)
+        client.mint(&user, &100_0000000);
+
+        assert_eq!(client.balance(&user), 100_0000000);
+        assert_eq!(client.total_supply(), 100_0000000);
+    }
+
+    #[test]
+    fn test_burn_tokens() {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let contract_id = env.register_contract(None, EnergyToken);
+        let client = EnergyTokenClient::new(&env, &contract_id);
+
+        let admin = Address::generate(&env);
+        let distribution = Address::generate(&env);
+        let user = Address::generate(&env);
+
+        client.initialize(&admin, &distribution);
+        client.mint(&user, &100_0000000);
+
+        // Burn 30 kWh
+        client.burn(&user, &30_0000000);
+
+        assert_eq!(client.balance(&user), 70_0000000);
+        assert_eq!(client.total_supply(), 70_0000000);
+    }
+
+    #[test]
+    fn test_transfer() {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let contract_id = env.register_contract(None, EnergyToken);
+        let client = EnergyTokenClient::new(&env, &contract_id);
+
+        let admin = Address::generate(&env);
+        let distribution = Address::generate(&env);
+        let user_a = Address::generate(&env);
+        let user_b = Address::generate(&env);
+
+        client.initialize(&admin, &distribution);
+        client.mint(&user_a, &50_0000000);
+
+        // User A transfers 20 kWh to User B (P2P trade)
+        client.transfer(&user_a, &user_b, &20_0000000);
+
+        assert_eq!(client.balance(&user_a), 30_0000000);
+        assert_eq!(client.balance(&user_b), 20_0000000);
+    }
+
+    #[test]
+    #[should_panic(expected = "InsufficientBalance")]
+    fn test_burn_insufficient_balance() {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let contract_id = env.register_contract(None, EnergyToken);
+        let client = EnergyTokenClient::new(&env, &contract_id);
+
+        let admin = Address::generate(&env);
+        let distribution = Address::generate(&env);
+        let user = Address::generate(&env);
+
+        client.initialize(&admin, &distribution);
+        client.mint(&user, &10_0000000);
+
+        // Try to burn more than balance
+        client.burn(&user, &50_0000000);
+    }
+}

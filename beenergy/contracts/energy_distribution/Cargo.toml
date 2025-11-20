@@ -1,0 +1,51 @@
+# ==============================================================================
+# DISTRIBUTION CONTRACT - Distribución Comunitaria de Energía
+# ==============================================================================
+# Gestiona la distribución de energía solar generada entre miembros
+# de una comunidad según sus porcentajes de propiedad.
+#
+# ⚠️ Testnet:
+# - Datos de generación: SIMULADOS desde backend
+# - Miembros de comunidad: Wallets de prueba
+#     Mainnet: Oracle IoT provee datos reales
+#
+# FUNCIONALIDAD:
+# 1. Comunidad instala paneles solares (ej: 50 kWh total)
+# 2. Se define % de propiedad por miembro (25%, 25%, 25%, 25%)
+# 3. Sistema genera X kWh → contrato distribuye según %
+# 4. Cada miembro recibe tokens proporcionales a su parte
+# ==============================================================================
+
+[package]
+name = "energy_distribution"
+version = "0.1.0"
+edition = "2021"
+authors = ["BeEnergy Team"]
+description = "BeEnergy Distribution - Manages community ownership and energy distribution with ZK privacy"
+
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = { workspace = true }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true
+
+[features]
+testutils = ["soroban-sdk/testutils"]
