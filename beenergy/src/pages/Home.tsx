@@ -1,17 +1,16 @@
 import React from "react";
 import { Code, Layout, Text } from "@stellar/design-system";
-import { GuessTheNumber } from "../components/GuessTheNumber";
+// import { GuessTheNumber } from "../components/GuessTheNumber";
 
 const Home: React.FC = () => (
   <Layout.Content>
     <Layout.Inset>
       <Text as="h1" size="xl">
-        Welcome to your app!
+        ¡Bienvenido a BeEnergy! 🌞⚡
       </Text>
       <Text as="p" size="md">
-        This is a basic template to get your dapp started with the Stellar
-        Design System and Stellar contracts. You can customize it further by
-        adding your own contracts, components, and styles.
+        Plataforma Web3 para comunidades energéticas autónomas con transparencia total en blockchain y privacidad mediante ZK proofs.
+        Esta dApp permite a comunidades pequeñas (5-50 hogares) crear, gestionar y gobernar instalaciones solares compartidas de forma completamente transparente.
       </Text>
 
       <Text as="h2" size="lg">
@@ -56,7 +55,11 @@ const Home: React.FC = () => (
       <Text as="h2" size="lg">
         &lt;GuessTheNumber /&gt;
       </Text>
-      <GuessTheNumber />
+      {/* <GuessTheNumber /> */}
+      <Text as="p" size="md" style={{backgroundColor: "#e0f7fa", padding: "1rem", borderRadius: "8px"}}>
+        🎉 <strong>BeEnergy dApp</strong> - El componente GuessTheNumber está comentado temporalmente.
+        Aquí puedes agregar tus componentes de BeEnergy (Dashboard, Marketplace, etc.)
+      </Text>
       <Text as="h2" size="lg">
         Interact with wallets
       </Text>

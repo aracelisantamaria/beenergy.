@@ -536,7 +536,7 @@ history.operations.forEach(op => {
 
 ## 🗺️ Roadmap
 
-### ✅ MVP (Hackathon - Noviembre 2025)
+### ✅ MVP (Hackathon - Marzo 2025)
 - [x] 3 smart contracts desplegados en testnet
 - [x] Dashboard funcional (sin backend)
 - [x] Integración Stellar DEX
@@ -564,16 +564,13 @@ history.operations.forEach(op => {
 
 **Team BeEnergy:**
 
-- **Tamara Ortega** - Pitch & Product
-- **Araceli Santamaria** - Smart Contracts & ZK Circuits
-- **Romina Iurchik** - Backend Lead
-- **Maria de los Angeles Rechach** - UX Desinger
-- **Beverly González** - Frontend
+- **[Tu Nombre]** - Smart Contracts & ZK Circuits
+- **[Nombre Compañera]** - Frontend & UX/UI
 
 **Contacto:**
-- 🐦 Twitter: [@BeEnergyDAO](https://x.com/beenergycom?s=11)
-- 📧 Email: benenergycoomunity@gmail.com
-
+- 🐦 Twitter: [@BeEnergyDAO](https://twitter.com/BeEnergyDAO)
+- 📧 Email: team@beeenergy.io
+- 💬 Discord: [discord.gg/beeenergy](https://discord.gg/beeenergy)
 
 ---
 
