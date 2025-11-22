@@ -1,549 +1,687 @@
-# BeEnergy 🌞⚡
+# ⚡ BeEnergy - Energía Verde Tokenizada
 
-> Plataforma Web3 para comunidades energéticas autónomas con transparencia total en blockchain y privacidad mediante ZK proofs
+<div align="center">
 
-[![Stellar](https://img.shields.io/badge/Stellar-Testnet-blue)](https://stellar.org)
-[![Soroban](https://img.shields.io/badge/Soroban-Smart%20Contracts-purple)](https://soroban.stellar.org)
+**Plataforma cooperativa de energía renovable tokenizada en Stellar**
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-black)](https://nextjs.org/)
+[![Stellar](https://img.shields.io/badge/Stellar-SDK%2014.2-blue)](https://stellar.org/)
 [![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-v0.4.1-green)](https://openzeppelin.com)
-[![ZK-SNARK](https://img.shields.io/badge/Privacy-ZK--Proofs-red)](https://zkproof.org)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DeFindex](https://img.shields.io/badge/DeFindex-Integrated-purple)](https://defindex.io/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+</div>
 
 ---
 
 ## 📋 Tabla de Contenidos
 
-- [¿Qué es BeEnergy?](#qué-es-beeenergy)
-- [Problema que Resolvemos](#problema-que-resolvemos)
-- [Solución](#solución)
-- [Arquitectura](#arquitectura)
-- [Tecnologías](#tecnologías)
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Smart Contracts](#smart-contracts)
-- [Privacidad con ZK Proofs](#privacidad-con-zk-proofs)
-- [Roadmap](#roadmap)
-- [Equipo](#equipo)
+- [Descripción](#-descripción)
+- [Características](#-características)
+- [Tecnologías](#-tecnologías)
+- [Arquitectura](#-arquitectura)
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Funcionalidades](#-funcionalidades)
+- [API Endpoints](#-api-endpoints)
+- [Scripts](#-scripts)
+- [Deployment](#-deployment)
+- [Equipo](#-equipo)
 
 ---
 
-## 🌍 ¿Qué es BeEnergy?
+## 🌟 Descripción
 
-**BeEnergy** es una plataforma Web3 que permite a comunidades pequeñas (5-50 hogares) crear, gestionar y gobernar instalaciones solares compartidas de forma completamente transparente mediante blockchain Stellar, con privacidad garantizada mediante Zero-Knowledge proofs.
+**BeEnergy** es una plataforma Web3 que permite a comunidades pequeñas crear, gestionar y gobernar instalaciones solares compartidas de forma completamente transparente mediante blockchain Stellar.
 
-### Características Principales:
+### Los usuarios pueden:
 
-✅ **Distribución Automática**: Los kWh generados se distribuyen proporcionalmente según % de propiedad  
-✅ **Marketplace P2P**: Comercio libre de energía entre vecinos con pricing dinámico (Stellar DEX)  
-✅ **Transparencia Total**: Todo registrado on-chain - auditable por cualquiera  
-✅ **Privacidad Garantizada**: ZK proofs protegen datos sensibles de consumo  
-✅ **Gobernanza Descentralizada**: Decisiones comunitarias mediante votaciones on-chain  
-✅ **Sin Base de Datos Centralizada**: 100% on-chain storage en Stellar  
-✅ **Multi-firma Comunitaria**: Wallet compartida con firmas múltiples  
+- 🏭 **Generar** energía renovable tokenizada (kWh en blockchain)
+- 💱 **Comercializar** energía excedente en un marketplace P2P
+- 📊 **Gestionar** producción y consumo en tiempo real
+- 💰 **Generar rendimientos** automáticos con DeFi (DeFindex)
+- 🔒 **Privacidad** mediante Zero-Knowledge Proofs para rankings
 
----
-
-## 🔥 Problema que Resolvemos
-
-Las comunidades que buscan adoptar energías renovables enfrentan:
-
-- **Gobernanza opaca**: Administradores centralizados sin transparencia
-- **Sistemas centralizados ineficientes**: Colapsos frecuentes, tarifas volátiles (aumentos del 40-300%)
-- **Barreras de inversión**: $8,000-15,000 USD por hogar para instalación individual
-- **Imposibilidad de monetizar excedentes**: Las distribuidoras compran a 40-60% del precio de venta
-- **Falta de privacidad**: Datos de consumo expuestos públicamente
-- **Dependencia de bases de datos centralizadas**: Riesgo de censura y pérdida de datos
+La plataforma utiliza **Stellar blockchain** para tokenizar kWh de energía como **HDROP tokens** y **contratos inteligentes Soroban** para gestionar transacciones peer-to-peer.
 
 ---
 
-## 💡 Solución
+## ✨ Características
 
-### Flujo de Usuario:
+### 🔗 Blockchain & Web3
+- ✅ Integración completa con **Stellar Network**
+- ✅ Tokenización de kWh como **HDROP tokens**
+- ✅ Soporte para múltiples wallets (Freighter, Albedo, xBull)
+- ✅ Contratos inteligentes en **Soroban**
+- ✅ Trading en **Stellar DEX**
+- ✅ **Multi-sig wallet** comunitaria
 
-```
-1. INSTALACIÓN (Off-chain)
-   → Comunidad instala paneles solares compartidos
-   
-2. CONTRATO INICIAL (On-chain)
-   → Smart contract registra % de propiedad cifrado con ZK proofs:
-     Juan: 30%, María: 25%, Carlos: 25%, Ana: 20%
-   
-3. GENERACIÓN DIARIA (Automático + Privado)
-   → Sistema genera 100 kWh
-   → ZK proof verifica generación sin revelar datos sensibles
-   → Distribución automática:
-     • Juan: 30 $ENERGY tokens
-     • María: 25 $ENERGY tokens
-     • Carlos: 25 $ENERGY tokens
-     • Ana: 20 $ENERGY tokens
-   
-4. CONSUMO DIARIO (Privado)
-   → Tokens se queman al consumir
-   → ZK proof demuestra consumo válido sin revelar cantidad exacta públicamente
-   
-5. MARKETPLACE P2P (Stellar DEX)
-   → Trading directo en Stellar DEX
-   → Precio dinámico según oferta/demanda
-   → Ejecución atómica (sin riesgo de contraparte)
-   
-6. GOBERNANZA DAO
-   → Propuestas y votaciones on-chain
-   → Multi-sig wallet para fondos comunes
-   → Todo transparente pero con privacidad opcional
-```
+### 💹 DeFi & Rendimientos
+- ✅ Integración con **DeFindex** para yield farming
+- ✅ Generación de **intereses diarios** automáticos (APY ~5.2%)
+- ✅ Vaults de stablecoins para maximizar retornos
+- ✅ Dashboard con estadísticas en tiempo real
+- ✅ API backend completa para DeFindex
 
----
+### 🎨 Interfaz de Usuario
+- ✅ Dashboard interactivo con gráficos (Recharts)
+- ✅ Modo claro/oscuro con persistencia
+- ✅ Diseño responsive (mobile-first)
+- ✅ Componentes accesibles (Radix UI)
+- ✅ Animaciones fluidas (Tailwind Animate)
+- ✅ Multi-idioma (ES/EN)
 
-## 🏗️ Arquitectura
+### 🏆 Gamificación & Social
+- ✅ **Ranking comunitario** de ahorro energético
+- ✅ Sistema de **hojas 🍃** (1-5) según eficiencia
+- ✅ **Zero-Knowledge Proofs** para privacidad
+- ✅ Nombres parcialmente ocultos (ej: "M***a G****z")
+- ✅ Avatares generados por hash de dirección
 
-```
-┌──────────────────────────────────────────────────────┐
-│                    USUARIO                            │
-│               (Freighter Wallet)                      │
-└────────────────────┬─────────────────────────────────┘
-                     │
-                     ↓
-┌──────────────────────────────────────────────────────┐
-│              FRONTEND (Next.js)                       │
-│  • Dashboard      • Marketplace      • Votaciones    │
-│  • ZK Proof Generator (Client-side)                  │
-└────────────────────┬─────────────────────────────────┘
-                     │
-                     ↓
-┌──────────────────────────────────────────────────────┐
-│        STELLAR NETWORK (100% On-chain)               │
-│                                                       │
-│  ┌────────────────────────────────────────────────┐ │
-│  │  SMART CONTRACTS (Soroban):                    │ │
-│  │  • energy_token (OpenZeppelin SEP-41)          │ │
-│  │  • energy_distribution (storage on-chain)      │ │
-│  │  • community_governance (DAO + Marketplace)    │ │
-│  │  • zk_verifier (ZK proof verification)         │ │
-│  └────────────────────────────────────────────────┘ │
-│                                                       │
-│  ┌────────────────────────────────────────────────┐ │
-│  │  STELLAR NATIVE FEATURES:                      │ │
-│  │  • Stellar DEX (Trading P2P)                   │ │
-│  │  • Multi-sig Accounts (Community wallet)       │ │
-│  │  • Stellar Anchors (USDC on/off-ramp)          │ │
-│  │  • Persistent Storage (No external DB)         │ │
-│  └────────────────────────────────────────────────┘ │
-│                                                       │
-│  📊 Stellar Expert API (Indexing)                    │
-└──────────────────────────────────────────────────────┘
-```
+### 📊 Análisis & Reportes
+- ✅ Gráficos de consumo mensual (barras)
+- ✅ Gráficos de kWh disponibles (área)
+- ✅ Distribución energética (torta)
+- ✅ Historial completo de transacciones
+- ✅ Marketplace de ofertas P2P
 
 ---
 
 ## 🛠️ Tecnologías
 
-### Blockchain:
-- **Stellar Testnet** - Red blockchain (no PostgreSQL, todo on-chain)
-- **Soroban** - Smart contracts (Rust)
-- **OpenZeppelin Stellar ^0.4.1** - Token estándar SEP-41
+### Frontend
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| **Next.js** | 16.0.3 | Framework React con SSR/API Routes |
+| **React** | 19.2.0 | Biblioteca UI |
+| **TypeScript** | 5.x | Tipado estático |
+| **Tailwind CSS** | 4.1.9 | Estilos utility-first |
+| **Radix UI** | Latest | Componentes accesibles (25+) |
+| **Recharts** | Latest | Gráficos y visualizaciones |
+| **Lucide React** | 0.454.0 | Iconos |
+
+### Backend & API
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| **Next.js API Routes** | 16.0.3 | Backend serverless |
+| **Stellar SDK** | 14.2.0 | Integración con Stellar |
+| **DeFindex SDK** | 0.1.1 | Yield farming automático |
+| **Soroban** | Latest | Smart contracts (Rust) |
+
+### Blockchain
+- **Stellar Testnet/Mainnet** - Red blockchain
+- **Soroban Smart Contracts** - energy_token, energy_distribution, community_governance
+- **OpenZeppelin Stellar** ^0.4.1 - Token estándar SEP-41
 - **Stellar DEX** - Trading P2P nativo
-- **Multi-sig Accounts** - Wallet comunitaria con 3-of-5 firmas
-- **Stellar Anchors** - MoneyGram Access para USDC
+- **Multi-sig Accounts** - Wallet comunitaria
 
-### Privacy:
-- **Circom** - ZK circuit compiler
-- **SnarkJS** - ZK proof generation (browser)
-- **Groth16** - ZK-SNARK proof system
-- **Poseidon Hash** - ZK-friendly hash function
-
-### Frontend:
-- **Next.js 14** - Framework React (sin backend Node)
-- **TypeScript** - Tipado estático
-- **@stellar/stellar-sdk** - SDK de Stellar
-- **Freighter** - Wallet integration
-- **shadcn/ui + TailwindCSS** - Componentes UI
-- **SnarkJS (Browser)** - ZK proof generation client-side
-
-### Indexing & Analytics:
-- **Stellar Expert API** - Leer transacciones históricas
-- **Stellar Horizon** - API REST de Stellar
+### Herramientas
+- **Vite** 7.1.11 - Build tool
+- **ESLint** 9.36.0 - Linting
+- **Prettier** 3.6.2 - Formateo
+- **Husky** 9.1.7 - Git hooks
+- **React Hook Form** - Formularios
+- **Zod** - Validación de esquemas
 
 ---
 
-## 📦 Instalación (Windows Compatible)
+## 🏗️ Arquitectura
 
-### Prerrequisitos:
+### Arquitectura General
 
-```bash
-# Instalar Rust (Windows)
-# Descargar desde: https://rustup.rs/
-# O usar PowerShell:
-Invoke-WebRequest -Uri https://win.rustup.rs/x86_64 -OutFile rustup-init.exe
-.\rustup-init.exe
-
-# Agregar target wasm32
-rustup target add wasm32-unknown-unknown
-
-# Instalar Soroban CLI
-cargo install --locked soroban-cli --features opt
-
-# Instalar Node.js 20+ (Windows)
-# Descargar desde: https://nodejs.org
-
-# NO SE NECESITA PostgreSQL ✅
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     USUARIO (Browser)                       │
+│                  (Freighter Wallet)                         │
+└───────────────────┬─────────────────────────────────────────┘
+                    │
+        ┌───────────▼───────────┐
+        │   Next.js Frontend    │
+        │   (React Components)  │
+        │   • Dashboard         │
+        │   • Marketplace       │
+        │   • Activity          │
+        │   • Profile           │
+        └───────────┬───────────┘
+                    │
+        ┌───────────▼───────────────────────────────────┐
+        │         API Routes (Next.js Backend)          │
+        │  /api/defindex/*  |  Custom endpoints         │
+        └───────────┬───────────────────────────────────┘
+                    │
+        ┌───────────┴──────────┐
+        │                      │
+┌───────▼──────────┐   ┌───────▼─────────┐
+│  DeFindex SDK    │   │  Stellar SDK    │
+│  (lib/defindex-  │   │  (Blockchain)   │
+│   service.ts)    │   │                 │
+└───────┬──────────┘   └────────┬────────┘
+        │                       │
+┌───────▼──────────┐   ┌────────▼──────────┐
+│  DeFindex API    │   │  Stellar Network  │
+│  (Soroban Vaults)│   │  • Testnet        │
+│  • APY Stats     │   │  • Mainnet        │
+│  • Deposits      │   │  • Smart Contracts│
+│  • Withdrawals   │   │  • DEX Trading    │
+└──────────────────┘   └───────────────────┘
+                │
+        ┌───────▼──────────┐
+        │    Supabase      │
+        │  (Database/Auth) │
+        └──────────────────┘
 ```
 
-### 1. Clonar Repositorio:
+### Flujo de Datos
+
+1. **Usuario conecta wallet** → Freighter/Albedo/xBull
+2. **Frontend** → Solicita datos al API Next.js
+3. **API Routes** → Procesa y llama a servicios (DeFindex, Stellar)
+4. **DeFindex Service** → Obtiene APY, genera transacciones
+5. **Stellar SDK** → Ejecuta transacciones en blockchain
+6. **Frontend** → Actualiza UI con datos en tiempo real
+
+---
+
+## 🚀 Instalación
+
+### Prerrequisitos
 
 ```bash
-git clone https://github.com/tu-usuario/beeenergy.git
-cd beeenergy
+Node.js >= 18.x
+npm >= 9.x
+Git
+Wallet Stellar (Freighter recomendado)
 ```
 
-### 2. Setup Smart Contracts:
+### Paso 1: Clonar Repositorio
 
 ```bash
-cd contracts
-
-# Build todos los contratos
-./build-all.sh  # Linux/Mac
-.\build-all.ps1  # Windows PowerShell
-
-# Deploy a testnet
-./deploy-testnet.sh  # Linux/Mac
-.\deploy-testnet.ps1  # Windows PowerShell
+git clone https://github.com/tu-usuario/beenergy.git
+cd beenergy
 ```
 
-### 3. Setup ZK Circuits:
+### Paso 2: Instalar Dependencias
 
 ```bash
-cd zk-circuits
-
-# Instalar circom
-npm install -g circom
-
-# Compilar circuitos
-npm run build:circuits
-
-# Generar proving/verification keys
-npm run setup:zk
+npm install --legacy-peer-deps
 ```
 
-### 4. Setup Frontend (No Backend Needed!):
+> **Nota:** Se usa `--legacy-peer-deps` debido a conflictos de peer dependencies entre React 19 y algunas librerías.
+
+### Paso 3: Configurar Variables de Entorno
 
 ```bash
-cd frontend
+cp .env.example .env
+```
 
-# Instalar dependencias
-npm install
+Edita `.env` con tus configuraciones (ver [Configuración](#-configuración)).
 
-# Configurar variables de entorno
-cp .env.local.example .env.local
-# Editar .env.local con CONTRACT_IDs
+### Paso 4: Iniciar Servidor de Desarrollo
 
-# Iniciar app
+```bash
 npm run dev
 ```
 
-Abrir: `http://localhost:3000`
+Aplicación disponible en: `http://localhost:3000`
 
 ---
 
-## 🚀 Uso
+## ⚙️ Configuración
 
-### 1. Crear Comunidad:
+### Variables de Entorno Esenciales
 
-```bash
-# Desde el dashboard
-1. Click "Crear Comunidad"
-2. Ingresar miembros y % de propiedad
-3. Sistema genera ZK proof de distribución
-4. Firmar transacción con Freighter
-5. ¡Comunidad creada con privacidad! 🎉
+```env
+# Stellar Network
+STELLAR_SCAFFOLD_ENV=development
+PUBLIC_STELLAR_NETWORK="TESTNET"
+PUBLIC_STELLAR_NETWORK_PASSPHRASE="Test SDF Network ; September 2015"
+PUBLIC_STELLAR_RPC_URL="https://soroban-testnet.stellar.org"
+PUBLIC_STELLAR_HORIZON_URL="https://horizon-testnet.stellar.org"
+
+# DeFindex (Para yield farming)
+DEFINDEX_API_KEY="sk_your_api_key_here"
+DEFINDEX_BASE_URL="https://api.defindex.io"
+NEXT_PUBLIC_DEFINDEX_VAULT_ADDRESS="VAULT_ADDRESS_HERE"
+
 ```
 
-### 2. Simular Generación (Con Privacidad):
+### Obtener DeFindex API Key
 
-```bash
-# Opción A: Desde UI
-Dashboard → "Simular Generación" 
-→ Ingresar 100 kWh
-→ Sistema genera ZK proof
-→ Proof verifica en smart contract
-→ Tokens distribuidos automáticamente
+1. Visita [DeFindex.io](https://defindex.io)
+2. Regístrate y obtén API key
+3. Encuentra dirección del vault USDC
+4. Actualiza variables en `.env`
 
-# Opción B: CLI directa
-soroban contract invoke \
-  --id $DISTRIBUTION_ID \
-  --network testnet \
-  -- \
-  record_generation_with_proof \
-  --total_kwh 100 \
-  --zk_proof [proof_bytes]
+Ver: [DEFINDEX_INTEGRATION.md](DEFINDEX_INTEGRATION.md)
+
+---
+
+## 📁 Estructura del Proyecto
+
 ```
-
-### 3. Comerciar Energía (Stellar DEX):
-
-```bash
-1. Ir a "Marketplace"
-2. Ver órdenes en Stellar DEX
-3. Click "Comprar" o "Vender"
-4. Transacción ejecutada atómicamente en DEX
-5. Sin intermediarios, sin fees extra ⚡
+beenergy/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API Routes (Backend)
+│   │   └── defindex/            # Endpoints DeFindex
+│   │       ├── health/          # GET - Health check
+│   │       ├── stats/           # GET - User statistics
+│   │       ├── vault/           # GET - Vault info
+│   │       ├── deposit/         # POST - Generate deposit tx
+│   │       └── withdraw/        # POST - Generate withdraw tx
+│   ├── dashboard/               # Dashboard principal
+│   ├── marketplace/             # Marketplace P2P
+│   ├── activity/                # Historial transacciones
+│   ├── consumption/             # Consumo energético
+│   ├── profile/                 # Perfil de usuario
+│   ├── layout.tsx              # Root layout
+│   ├── page.tsx                # Landing page
+│   └── globals.css             # Estilos globales
+│
+├── components/                  # Componentes React
+│   ├── ui/                     # UI primitives (shadcn)
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   └── ...
+│   ├── sidebar.tsx             # Sidebar de navegación
+│   ├── dashboard-header.tsx    # Header del dashboard
+│   ├── balance-display.tsx     # Componente de balance
+│   └── ...
+│
+├── hooks/                       # Custom React hooks
+│   ├── useDefindex.ts          # Hook DeFindex integration
+│   ├── useWallet.ts            # Hook wallet management
+│   └── ...
+│
+├── lib/                         # Utilidades & Servicios
+│   ├── defindex-service.ts     # DeFindex backend logic
+│   ├── wallet-context.tsx      # Wallet context provider
+│   ├── i18n-context.tsx        # Internacionalización
+│   ├── mock-data.ts            # Datos mock para demo
+│   └── utils.ts                # Helper functions
+│
+├── contracts/                   # Soroban Smart Contracts
+│   ├── energy_token/           # Token HDROP (SEP-41)
+│   ├── energy_distribution/    # Distribución automática
+│   ├── energy_marketplace/     # Marketplace P2P
+│   └── zk_verifier/           # ZK proof verifier
+│
+├── public/                      # Assets estáticos
+│   ├── logo.png
+│   ├── favicon.ico
+│   └── ...
+│
+├── .env.example                # Plantilla env vars
+├── package.json                # Dependencies (~80)
+├── next.config.mjs             # Next.js config
+├── tailwind.config.js          # Tailwind config
+├── tsconfig.json               # TypeScript config
+├── DEFINDEX_INTEGRATION.md     # Docs DeFindex
+└── README.md                   # Este archivo
 ```
 
 ---
 
-## 📜 Smart Contracts (Solo 3)
+## 🎯 Funcionalidades
 
-### 1. **energy_token** (SEP-41 Token - OpenZeppelin)
-- Token fungible $ENERGY
-- 1 token = 1 kWh
-- Minteo/Quema automática
-- Compatible con Stellar DEX
+### 1️⃣ Dashboard Principal (`/dashboard`)
 
-📄 [Ver código](./contracts/energy_token/src/lib.rs)  
-🔗 [Ver en Explorer](https://stellar.expert/explorer/testnet/contract/CXXXX)
+**Componentes:**
+- 💰 **Balance Card**
+  - Balance HDROP + USD
+  - Sección DeFindex con APY
+  - Intereses diarios/mensuales
 
-### 2. **energy_distribution**
-- Registra % de propiedad (on-chain storage)
-- Recibe lecturas de medidor
-- Verifica ZK proofs de privacidad
-- Distribuye tokens automáticamente
-- NO requiere DB externa (todo en Stellar)
+- ⚡ **kWh Disponibles**
+  - Gráfico de área (7 días)
+  - Total disponible
 
-📄 [Ver código](./contracts/energy_distribution/src/lib.rs)  
-🔗 [Ver en Explorer](https://stellar.expert/explorer/testnet/contract/CXXXX)
+- 📊 **Consumo Mensual**
+  - Gráfico de barras (7 días)
+  - Total consumido
 
-### 3. **community_governance** (DAO + Marketplace combinados)
-- Propuestas on-chain
-- Votación ponderada por %
-- Integración con Stellar DEX para trading
-- Multi-sig wallet comunitaria
-- Ejecución automática
+- 🥧 **Distribución Energética**
+  - Gráfico de torta
+  - Generado vs Consumido
+  - Barra de eficiencia
 
-📄 [Ver código](./contracts/community_governance/src/lib.rs)  
-🔗 [Ver en Explorer](https://stellar.expert/explorer/testnet/contract/CXXXX)
+- 🏆 **Ranking Comunitario**
+  - Top 8 usuarios
+  - Sistema de hojas 🍃
+  - ZK Proofs para privacidad
+  - Nombres parcialmente ocultos
 
-### 4. **zk_verifier** (Opcional - Para MVP)
-- Verifica ZK proofs on-chain
-- Protege privacidad de datos de consumo
-- Groth16 verifier en Soroban
+### 2️⃣ Marketplace P2P (`/marketplace`)
 
-📄 [Ver código](./contracts/zk_verifier/src/lib.rs)
+- 🔍 Ver ofertas de energía
+- 💵 Precios en XLM
+- ✅ Comprar energía directamente
+- 📤 Publicar ofertas de venta
+- 🔄 Transacciones en Stellar DEX
+
+### 3️⃣ Historial de Actividad (`/activity`)
+
+- 📜 Últimas compras y ventas
+- 🔎 Filtros por mes/año
+- 📊 Resumen de transacciones
+- 💸 Totales acumulados
+
+### 4️⃣ Consumo Energético (`/consumption`)
+
+- 📈 Historial completo de consumo
+- 🗓️ Desglose por mes
+- 📊 Total de kWh consumidos
+- 📉 Tendencias de uso
+
+### 5️⃣ Perfil de Usuario (`/profile`)
+
+- 👤 Avatar personalizado
+- 📝 Editar nombre
+- 🔑 Dirección de wallet
+- 💾 Guardar cambios en Supabase
 
 ---
 
-## 🔐 Privacidad con ZK Proofs
+## 🔌 API Endpoints
 
-### ¿Por qué ZK proofs?
+### DeFindex API
 
-En una blockchain pública, **todos los datos son visibles**. Esto incluye:
-- Cuánta energía consumís individualmente
-- Patrones de consumo (horarios, días)
-- Si estás en casa o no (consumo = ocupación)
+#### Health Check
+```http
+GET /api/defindex/health
 
-**ZK proofs permiten:**
-✅ Demostrar que consumiste X kWh **sin revelar X**  
-✅ Verificar que tu consumo es válido **sin mostrar detalles**  
-✅ Mantener transparencia **con privacidad opcional**  
-
-### Circuito ZK: Proof of Energy Consumption
-
-```circom
-// Circuit: Prove you consumed <= your allocation
-pragma circom 2.0.0;
-
-include "circomlib/poseidon.circom";
-include "circomlib/comparators.circom";
-
-template EnergyConsumptionProof() {
-    // Private inputs (hidden)
-    signal input consumed_kwh;
-    signal input allocated_kwh;
-    signal input user_secret;
-    
-    // Public inputs (visible on-chain)
-    signal input user_commitment;  // Hash of user_secret
-    signal output valid;
-    
-    // Verify user identity (without revealing secret)
-    component hasher = Poseidon(1);
-    hasher.inputs[0] <== user_secret;
-    user_commitment === hasher.out;
-    
-    // Verify consumption <= allocation
-    component leq = LessEqThan(64);
-    leq.in[0] <== consumed_kwh;
-    leq.in[1] <== allocated_kwh;
-    
-    valid <== leq.out;
-}
-
-component main = EnergyConsumptionProof();
-```
-
-### Flujo de Privacidad:
-
-```
-1. USUARIO (Frontend):
-   → Genera proof: "Consumí ≤ mi cuota, pero no digo cuánto"
-   → Proof generado en browser (SnarkJS)
-   
-2. SMART CONTRACT:
-   → Recibe proof
-   → Verifica matemáticamente que es válido
-   → Acepta/rechaza sin saber cantidad real
-   
-3. RESULTADO:
-   → ✅ Transparencia: todos ven que la transacción es válida
-   → ✅ Privacidad: nadie sabe la cantidad exacta consumida
-```
-
-### Implementación:
-
-**Frontend (JavaScript):**
-```javascript
-import { groth16 } from 'snarkjs';
-
-// Generar proof
-async function generateConsumptionProof(consumed, allocated, secret) {
-  const input = {
-    consumed_kwh: consumed,
-    allocated_kwh: allocated,
-    user_secret: secret,
-    user_commitment: poseidon([secret])
-  };
-  
-  const { proof, publicSignals } = await groth16.fullProve(
-    input,
-    'circuits/consumption.wasm',
-    'circuits/consumption_final.zkey'
-  );
-  
-  return { proof, publicSignals };
-}
-
-// Enviar a smart contract
-await distributionContract.record_consumption_with_proof(
-  proof,
-  publicSignals
-);
-```
-
-**Smart Contract (Rust):**
-```rust
-pub fn record_consumption_with_proof(
-    env: Env,
-    user: Address,
-    zk_proof: BytesN<256>,
-    public_signals: Vec<u64>
-) -> Result<(), Error> {
-    // Verify ZK proof
-    let is_valid = zk_verifier::verify_groth16(
-        &env,
-        &zk_proof,
-        &public_signals
-    )?;
-    
-    require!(is_valid, Error::InvalidProof);
-    
-    // Proceed without knowing actual consumption
-    burn_tokens(&env, &user, estimated_amount);
-    
-    Ok(())
+Response:
+{
+  "success": true,
+  "healthy": true,
+  "message": "DeFindex API is operational"
 }
 ```
 
----
+#### User Statistics
+```http
+GET /api/defindex/stats/[vaultAddress]/[userAddress]
 
-## 🔗 Integraciones Stellar Nativas
-
-### 1. **Stellar DEX** (Marketplace Automático)
-
-```javascript
-// NO necesitas smart contract custom para trading
-// Usar Stellar DEX directamente:
-
-import { Asset, Operation, TransactionBuilder } from '@stellar/stellar-sdk';
-
-// Crear orden de venta
-const sellOffer = Operation.manageSellOffer({
-  selling: energyToken,
-  buying: Asset.native(), // XLM o USDC
-  amount: '10',  // 10 kWh
-  price: '0.12',  // $0.12 por kWh
-});
-
-transaction.addOperation(sellOffer);
+Response:
+{
+  "success": true,
+  "data": {
+    "balance": 520,
+    "apy": 5.2,
+    "interestToday": 0.074,
+    "interestThisMonth": 2.21
+  }
+}
 ```
 
-### 2. **Multi-sig Community Wallet**
+#### Vault Information
+```http
+GET /api/defindex/vault/[address]
 
-```javascript
-// Crear wallet comunitaria con 3-of-5 firmas
-const communityAccount = await server.loadAccount(communityAddress);
-
-// Agregar signatarios
-const addSigners = [
-  Operation.setOptions({
-    signer: { ed25519PublicKey: member1Key, weight: 1 }
-  }),
-  Operation.setOptions({
-    signer: { ed25519PublicKey: member2Key, weight: 1 }
-  }),
-  // ... más miembros
-  Operation.setOptions({
-    masterWeight: 0,  // Desactivar master key
-    lowThreshold: 3,  // 3 firmas requeridas
-    medThreshold: 3,
-    highThreshold: 3
-  })
-];
+Response:
+{
+  "success": true,
+  "data": {
+    "address": "VAULT_...",
+    "name": "USDC Yield Vault",
+    "symbol": "yvUSDC",
+    "totalAssets": 1000000,
+    "apy": 5.2
+  }
+}
 ```
 
-### 3. **Stellar Anchors** (USDC On/Off Ramp)
+#### Deposit Funds
+```http
+POST /api/defindex/deposit
+Content-Type: application/json
 
-```javascript
-// Convertir tokens a USDC usando MoneyGram Access
-import { StellarTomlResolver } from '@stellar/stellar-sdk';
+Body:
+{
+  "vaultAddress": "VAULT_ADDRESS",
+  "amount": 100,
+  "userAddress": "USER_PUBLIC_KEY"
+}
 
-// 1. Conectar con anchor
-const toml = await StellarTomlResolver.resolve('moneygram.stellar.org');
-const usdcAsset = new Asset('USDC', toml.CURRENCIES[0].issuer);
-
-// 2. Path payment: $ENERGY → USDC → ARS
-const pathPayment = Operation.pathPaymentStrictSend({
-  sendAsset: energyToken,
-  sendAmount: '50',  // 50 kWh
-  destination: userAccount,
-  destAsset: usdcAsset,
-  destMin: '5.5',  // Mínimo $5.50 USDC
-});
+Response:
+{
+  "success": true,
+  "data": {
+    "transaction": "TRANSACTION_XDR",
+    "message": "Please sign with your wallet"
+  }
+}
 ```
 
-### 4. **Stellar Expert API** (Historial)
+#### Withdraw Funds
+```http
+POST /api/defindex/withdraw
+Content-Type: application/json
 
-```javascript
-// Leer historial de transacciones (sin DB propia)
-const response = await fetch(
-  `https://api.stellar.expert/explorer/testnet/contract/${contractId}/operations`
-);
-
-const history = await response.json();
-
-// Mostrar en frontend
-history.operations.forEach(op => {
-  console.log(`${op.type}: ${op.amount} kWh`);
-});
+Body:
+{
+  "vaultAddress": "VAULT_ADDRESS",
+  "amount": 50,
+  "userAddress": "USER_PUBLIC_KEY"
+}
 ```
+
+Ver documentación completa: [DEFINDEX_INTEGRATION.md](DEFINDEX_INTEGRATION.md)
 
 ---
 
-## 🗺️ Roadmap
+## 📜 Scripts
 
-### ✅ MVP (Hackathon - Noviembre 2025)
-- [x] 3 smart contracts desplegados en testnet
-- [x] Dashboard funcional (sin backend)
-- [x] Integración Stellar DEX
-- [x] Multi-sig wallet comunitaria
-- [x] ZK proofs para privacidad
-- [x] Storage 100% on-chain
+### Desarrollo
 
+```bash
+# Servidor de desarrollo
+npm run dev
+
+# Con watch de contratos
+npm run dev:full
+
+# Build para producción
+npm run build
+
+# Servidor de producción
+npm run preview
+```
+
+### Contratos Soroban
+
+```bash
+# Compilar contratos
+npm run build:contracts
+
+# Instalar dependencias de contratos
+npm run install:contracts
+```
+
+### Calidad de Código
+
+```bash
+# Linting
+npm run lint
+
+# Formateo automático
+npm run format
+```
+
+---
+
+## 🌐 Deployment
+
+### Build Manual
+
+```bash
+npm run build
+npm run preview
+```
+---
+
+## 📊 Dependencias Principales
+
+### Producción (22 core + UI)
+- `next` 16.0.3 - Framework
+- `react` 19.2.0 - UI
+- `@stellar/stellar-sdk` 14.2.0 - Blockchain
+- `@defindex/sdk` 0.1.1 - DeFi yield ⭐
+- `@supabase/supabase-js` 2.84.0 - DB
+- `recharts` - Gráficos
+- `@radix-ui/*` (25+ componentes) - UI
+- `tailwindcss` 4.1.9 - Styles
+- `lucide-react` - Iconos
+- `react-hook-form` + `zod` - Forms
+
+### Dev Tools
+- `typescript` 5.x
+- `eslint` + `prettier`
+- `husky` - Git hooks
+- `vite` 7.1.11
+---
+
+## 🎨 Diseño
+
+### Paleta de Colores
+
+```css
+--primary: rgb(3, 0, 171);      /* Azul energético */
+--success: rgb(5, 150, 105);    /* Verde renovable */
+--accent: rgb(141, 232, 242);   /* Celeste */
+--warning: rgb(234, 179, 8);    /* Amarillo */
+```
+
+### Breakpoints Responsive
+
+```css
+sm: 640px   /* Mobile */
+md: 768px   /* Tablet */
+lg: 1024px  /* Desktop */
+xl: 1280px  /* Wide */
+2xl: 1536px /* Ultra wide */
+```
+
+---
+
+## 📚 Documentación Adicional
+
+- [DEFINDEX_INTEGRATION.md](DEFINDEX_INTEGRATION.md) - Integración DeFindex completa
+- [ZK_PRIVACY_GUIDE.md](ZK_PRIVACY_GUIDE.md) - Zero-Knowledge Proofs
+- [DEPLOY_MANUAL.md](DEPLOY_MANUAL.md) - Deployment manual
+- [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) - Setup inicial
+
+---
+
+## 🐛 Troubleshooting
+
+### Error: Peer Dependencies
+
+```bash
+npm install --legacy-peer-deps
+```
+
+### Error: DeFindex API Key no configurada
+
+Agregar en `.env`:
+```env
+DEFINDEX_API_KEY="sk_your_key_here"
+NEXT_PUBLIC_DEFINDEX_VAULT_ADDRESS="VAULT_ADDRESS"
+```
+
+### Error: Wallet no conecta
+
+1. Instalar extensión Freighter
+2. Configurar network a Testnet
+3. Obtener XLM de testnet faucet
+
+---
+
+## 🤝 Contribuir
+
+1. Fork el repositorio
+2. Crea rama (`git checkout -b feature/nueva`)
+3. Commit (`git commit -m 'feat: agregar nueva funcionalidad'`)
+4. Push (`git push origin feature/nueva`)
+5. Abre Pull Request
+
+### Commits Semánticos
+
+```
+feat: nueva funcionalidad
+fix: corrección de bug
+docs: documentación
+style: formateo
+refactor: refactorización
+test: tests
+chore: mantenimiento
+```
+
+---
+
+## 📝 Roadmap
+
+### ✅ Completado (Q4 2024)
+- Dashboard interactivo con gráficos
+- Marketplace P2P en Stellar DEX
+- Integración Stellar + Soroban
+- DeFindex yield farming
+- Ranking comunitario con ZK Proofs
+- Multi-idioma (ES/EN)
+- API Routes completa
+
+### 🚧 En Progreso (Q1 2025)
+- Tests unitarios (80% coverage)
+- Integración Mainnet
+- Mobile app
+- Auditoría de seguridad
+
+### 📅 Planificado (Q2-Q4 2025)
+- DAO governance on-chain
+- NFTs certificados verdes
+- Integración con medidores IoT
+- Staking de HDROP tokens
+- 5 comunidades piloto activas
+
+---
+
+## 👥 Equipo
+
+**Team BeEnergy:**
+
+- **Tamara Ortega** - Pitch & Product
+- **Araceli Santamaria** - Smart Contracts & ZK Circuits
+- **Romina Iurchik** - Backend & API
+- **Maria de los Angeles Rechach** - UX/UI Designer
+- **Beverly González** - Frontend Development
+
+**Contacto:**
+- 🐦 Twitter: [@BeEnergyDAO](https://x.com/beenergycom?s=11)
+- 📧 Email: benenergycoomunity@gmail.com
+
+---
+
+## 📄 Licencia
+
+MIT License - Ver [LICENSE](LICENSE)
+
+---
+
+## 🙏 Agradecimientos
+
+- **Stellar Development Foundation** - Infraestructura blockchain
+- **DeFindex Team / Palta Labs** - SDK de yield farming
+- **OpenZeppelin** - Contratos seguros
+- **Hackathon Stellar Hack+** - Impulso inicial
+- **Comunidad Open Source**
+
+---
+
+<div align="center">
+
+**⚡ Construido con energía renovable ⚡**
+
+[⬆ Volver arriba](#-beenergy---energía-verde-tokenizada)
 ### 🔮 V1.0 (Post-Hackathon)
 - [ ] Mainnet deployment
 - [ ] Integración medidores IoT reales
