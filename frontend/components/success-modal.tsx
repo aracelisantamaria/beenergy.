@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useI18n } from "@/lib/i18n-context"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, Copy, ExternalLink, Leaf } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -84,7 +84,7 @@ export function SuccessModal({
           </div>
 
           {/* Title */}
-          <h2 className="text-3xl font-bold">{t("success.title")}</h2>
+          <DialogTitle className="text-3xl font-bold">{t("success.title")}</DialogTitle>
 
           {/* Details */}
           <div className="w-full space-y-3 text-left bg-muted/50 rounded-lg p-4">

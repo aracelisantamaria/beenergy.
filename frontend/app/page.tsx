@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSelector } from "@/components/language-selector"
 import { WalletConfirmationModal } from "@/components/wallet-confirmation-modal"
 import { ProfileSetupModal } from "@/components/profile-setup-modal"
-import { Zap, TrendingUp, BarChart3, Leaf } from "lucide-react"
+import { Zap, TrendingUp, BarChart3 } from "lucide-react"
 
 export default function LandingPage() {
   const { isConnected, connectWallet, userProfile, setUserProfile } = useWallet()
@@ -18,11 +18,20 @@ export default function LandingPage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showProfileSetup, setShowProfileSetup] = useState(false)
 
+  // Navigate to dashboard when connected and profile is set
   useEffect(() => {
     if (isConnected && userProfile) {
       router.push("/dashboard")
     }
   }, [isConnected, userProfile, router])
+
+  // Show profile setup when wallet is connected but no profile yet
+  useEffect(() => {
+    if (isConnected && !userProfile && !showProfileSetup) {
+      setShowConfirmModal(false)
+      setShowProfileSetup(true)
+    }
+  }, [isConnected, userProfile, showProfileSetup])
 
   const handleConnectClick = () => {
     setShowConfirmModal(true)
@@ -31,8 +40,7 @@ export default function LandingPage() {
   const handleConfirmConnection = async () => {
     try {
       await connectWallet()
-      setShowConfirmModal(false)
-      setShowProfileSetup(true)
+      // Don't close modal here - wait for isConnected to be true via useEffect
     } catch (error) {
       // Error is handled by WalletConfirmationModal
       console.error("[v0] Connection failed:", error)
@@ -51,8 +59,12 @@ export default function LandingPage() {
       <header className="fixed top-0 left-0 right-0 z-50 glass-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-[#F2C230] rounded-full flex items-center justify-center animate-float">
-              <Leaf className="w-6 h-6 text-[#0300AB]" />
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-float">
+              <img
+                src="/beenergy-assets/iso-transparente.png"
+                alt="BeEnergy Logo"
+                className="w-6 h-6 object-contain"
+              />
             </div>
             <span className="text-xl md:text-2xl font-bold text-white">BeEnergy</span>
           </div>
@@ -67,8 +79,12 @@ export default function LandingPage() {
       <section className="flex-1 flex items-center justify-center px-4 pt-20">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-block mb-6">
-            <div className="w-24 h-24 md:w-32 md:h-32 bg-[#F2C230] rounded-full flex items-center justify-center animate-float mx-auto">
-              <Leaf className="w-16 h-16 md:w-20 md:h-20 text-[#0300AB]" />
+            <div className="w-24 h-24 md:w-32 md:h-32 bg-white/20 rounded-full flex items-center justify-center animate-float mx-auto">
+              <img
+                src="/beenergy-assets/iso-transparente.png"
+                alt="BeEnergy Logo"
+                className="w-16 h-16 md:w-20 md:h-20 object-contain"
+              />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 text-balance">
@@ -123,11 +139,11 @@ export default function LandingPage() {
             <a href="#" className="hover:text-white transition-colors">
               {t("landing.footer.docs")}
             </a>
-            <a href="#" className="hover:text-white transition-colors">
+            <a href="https://github.com/ange-r/beenergy/tree/master" className="hover:text-white transition-colors">
               GitHub
             </a>
-            <a href="#" className="hover:text-white transition-colors">
-              Twitter
+            <a href="" className="hover:text-white transition-colors">
+              X
             </a>
           </div>
           <p className="text-[#8DE8F2] text-sm md:text-base">{t("landing.footer.powered")}</p>
