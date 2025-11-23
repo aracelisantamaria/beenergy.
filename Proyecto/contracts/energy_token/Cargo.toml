@@ -1,0 +1,34 @@
+# ==============================================================================
+# ENERGY TOKEN 
+# ==============================================================================
+# Token fungible siguiendo el estándar SEP-41 (Soroban Token Interface).
+# Usa OpenZeppelin Stellar para implementación segura y auditada.
+#
+# Estándares implementados:
+# - SEP-41: Soroban Token Interface (estándar oficial Stellar)
+# - Compatible con wallets y DEXs del ecosistema Stellar
+# ==============================================================================
+
+[package]
+name = "energy_token"
+version = "0.1.0"
+edition = "2021"
+authors = ["BeEnergy Team"]
+
+[lib]
+crate-type = ["cdylib"]  # Necesario para WASM
+
+# ==============================================================================
+# DEPENDENCIAS - OpenZeppelin Stellar (SEP-41)
+# ==============================================================================
+[dependencies]
+soroban-sdk = { workspace = true }
+stellar-access = { workspace = true }   # Sistema de control de acceso
+stellar-macros = { workspace = true }   # Provee @default_impl
+stellar-tokens = { workspace = true }   # Implementación SEP-41
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+
+[features]
+testutils = ["soroban-sdk/testutils"]

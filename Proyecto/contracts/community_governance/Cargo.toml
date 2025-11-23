@@ -1,0 +1,20 @@
+[package]
+name = "community_governance"
+version = "0.1.0"
+edition = "2021"
+authors = ["BeEnergy Team"]
+description = "BeEnergy Governance - DAO + Stellar DEX integration for community decision-making"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
+
+[features]
+testutils = ["soroban-sdk/testutils"]
+
+
